@@ -2,6 +2,7 @@ package br.tekk.system.library.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,7 @@ public class BookItemController {
 			@ApiResponse(responseCode = "500", description = "Internal server error") })
 	@GetMapping("/get")
 	public ResponseEntity<List<BookItemResponse>> findAll() {
-		return ResponseEntity.ok(bookItemService.findAllBookItems());
+		return ResponseEntity.status(HttpStatus.OK).body(bookItemService.findAllBookItems());
 	}
 
 	@Operation(summary = "Get book item by ID", description = "Retrieves a book item by its unique ID.")
@@ -45,7 +46,7 @@ public class BookItemController {
 			@ApiResponse(responseCode = "500", description = "Internal server error") })
 	@GetMapping("/get/{id}")
 	public ResponseEntity<BookItemResponse> findById(@PathVariable Integer id) {
-		return ResponseEntity.ok(bookItemService.findById(id));
+		return ResponseEntity.status(HttpStatus.OK).body(bookItemService.findById(id));
 	}
 
 	@Operation(summary = "Create a new book item", description = "Creates a new book item and returns its ID.")
@@ -55,7 +56,7 @@ public class BookItemController {
 			@ApiResponse(responseCode = "500", description = "Internal server error") })
 	@PostMapping("/create")
 	public ResponseEntity<Integer> createBookItem(@RequestBody BookItemRequest request) {
-		return ResponseEntity.status(201).body(bookItemService.createBookItem(request));
+		return ResponseEntity.status(HttpStatus.CREATED).body(bookItemService.createBookItem(request));
 	}
 
 	@Operation(summary = "Update book item", description = "Updates an existing book item by ID.")
@@ -66,7 +67,7 @@ public class BookItemController {
 	@PutMapping("/update/{id}")
 	public ResponseEntity<Void> updateBookItem(@PathVariable Integer id, @RequestBody BookItemRequest request) {
 		bookItemService.updateBookItem(id, request);
-		return ResponseEntity.accepted().build();
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
 	@Operation(summary = "Delete book item", description = "Deletes a book item by its unique ID.")
@@ -76,7 +77,7 @@ public class BookItemController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Void> deleteBookItem(@PathVariable Integer id) {
 		bookItemService.deleteBookItem(id);
-		return ResponseEntity.accepted().build();
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
 	/*

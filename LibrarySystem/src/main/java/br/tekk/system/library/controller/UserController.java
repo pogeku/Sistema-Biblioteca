@@ -3,6 +3,7 @@ package br.tekk.system.library.controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,7 @@ public class UserController {
 			@ApiResponse(responseCode = "500", description = "Internal server error") })
 	@GetMapping("/get")
 	public ResponseEntity<List<UserResponse>> findAllUsers() {
-		return ResponseEntity.ok(userService.findAllUsers());
+		return ResponseEntity.status(HttpStatus.OK).body(userService.findAllUsers());
 	}
 
 	@Operation(summary = "Get user by ID", description = "Retrieves a user by their unique ID.")
@@ -45,7 +46,7 @@ public class UserController {
 			@ApiResponse(responseCode = "500", description = "Internal server error") })
 	@GetMapping("/get/{id}")
 	public ResponseEntity<UserResponse> findById(@PathVariable UUID id) {
-		return ResponseEntity.ok(userService.findById(id));
+		return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));
 	}
 
 	@Operation(summary = "Create a new user", description = "Creates a new user and returns the user ID.")
@@ -56,7 +57,7 @@ public class UserController {
 	@PostMapping("/create")
 	public ResponseEntity<UUID> createUser(@RequestBody UserRequest request) {
 		UUID userId = userService.createUser(request);
-		return ResponseEntity.status(201).body(userId);
+		return ResponseEntity.status(HttpStatus.CREATED).body(userId);
 	}
 
 	@Operation(summary = "Update a user", description = "Updates an existing user by ID.")
@@ -67,7 +68,7 @@ public class UserController {
 	@PutMapping("/update/{id}")
 	public ResponseEntity<Void> updateUser(@PathVariable UUID id, @RequestBody UserRequest request) {
 		userService.updateUser(id, request);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
 	@Operation(summary = "Delete user", description = "Deletes a user by their unique ID.")
@@ -77,6 +78,6 @@ public class UserController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
 		userService.deleteUser(id);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

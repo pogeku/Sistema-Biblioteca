@@ -110,7 +110,7 @@ class BookItemControllerIntegrationTest {
 				LocalDate.now().plusDays(7));
 
 		mockMvc.perform(put("/items/update/{id}", Integer.parseInt(bookItemId)).contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(bookItemRequest))).andExpect(status().isAccepted());
+				.content(objectMapper.writeValueAsString(bookItemRequest))).andExpect(status().isNoContent());
 	}
 
 	@Test
@@ -124,7 +124,7 @@ class BookItemControllerIntegrationTest {
 
 		mockMvc.perform(
 				delete("/items/delete/{id}", Integer.parseInt(bookItemId)).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isAccepted());
+				.andExpect(status().isNoContent());
 
 		mockMvc.perform(get("/items/get/{id}", Integer.parseInt(bookItemId))).andExpect(status().isNotFound());
 	}
